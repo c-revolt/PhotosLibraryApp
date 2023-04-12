@@ -61,8 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				D0B47A2029E6BB62002342BE /* Application */,
-				D0B47A1729E6A515002342BE /* Modules */,
 				D0B47A1629E6A493002342BE /* SupportingFiles */,
+				D0B47A1729E6A515002342BE /* Modules */,
 			);
 			path = PhotosLibraryApp;
 			sourceTree = "<group>";
