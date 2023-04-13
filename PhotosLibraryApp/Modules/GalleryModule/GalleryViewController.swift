@@ -11,6 +11,7 @@ class GalleryViewController: UIViewController {
 
     // properties
     private var collectionView: UICollectionView?
+    var networkService: NetworkServiceType?
     
     private lazy var addBarButtonItem: UIBarButtonItem = {
         return UIBarButtonItem(barButtonSystemItem: .add,
@@ -27,7 +28,7 @@ class GalleryViewController: UIViewController {
     // lifecicle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        networkService = NetworkService()
         view.backgroundColor = .red
         navigationItem.title = "Gallery"
     
@@ -59,6 +60,8 @@ class GalleryViewController: UIViewController {
         titleLabel.text = "PHOTOS"
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         titleLabel.textColor = .lightText
+        sharedBarButtonItem.tintColor = .lightText
+        addBarButtonItem.tintColor = .lightText
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: titleLabel)
         navigationItem.rightBarButtonItems = [sharedBarButtonItem, addBarButtonItem]
     }
@@ -96,6 +99,9 @@ extension GalleryViewController: UICollectionViewDelegate {
 extension GalleryViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
+        networkService?.searchRequest(searchTerm: searchText, completion: { _, _ in
+            print("123")
+        })
     }
 }
 
