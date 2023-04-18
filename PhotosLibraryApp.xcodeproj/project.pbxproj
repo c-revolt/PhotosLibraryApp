@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0261E9D29EEA101004DA46D /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0261E9C29EEA101004DA46D /* PhotoCell.swift */; };
 		D0B47A0329E6A40A002342BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47A0229E6A40A002342BE /* AppDelegate.swift */; };
 		D0B47A0529E6A40A002342BE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47A0429E6A40A002342BE /* SceneDelegate.swift */; };
 		D0B47A0729E6A40A002342BE /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47A0629E6A40A002342BE /* GalleryViewController.swift */; };
@@ -17,9 +18,12 @@
 		D0B47A2329E6D8CD002342BE /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47A2229E6D8CD002342BE /* DetailViewController.swift */; };
 		D0B47A2629E6E3F2002342BE /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47A2529E6E3F2002342BE /* NetworkService.swift */; };
 		D0B47A2829E810CD002342BE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47A2729E810CD002342BE /* Constants.swift */; };
+		D0B47A2C29E82A99002342BE /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47A2B29E82A99002342BE /* NetworkDataFetcher.swift */; };
+		D0B47A2E29E82B0E002342BE /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B47A2D29E82B0E002342BE /* SearchResults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D0261E9C29EEA101004DA46D /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		D0B479FF29E6A40A002342BE /* PhotosLibraryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotosLibraryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B47A0229E6A40A002342BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0B47A0429E6A40A002342BE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,6 +36,8 @@
 		D0B47A2229E6D8CD002342BE /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		D0B47A2529E6E3F2002342BE /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D0B47A2729E810CD002342BE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D0B47A2B29E82A99002342BE /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
+		D0B47A2D29E82B0E002342BE /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,8 @@
 			isa = PBXGroup;
 			children = (
 				D0B47A0629E6A40A002342BE /* GalleryViewController.swift */,
+				D0B47A2D29E82B0E002342BE /* SearchResults.swift */,
+				D0261E9C29EEA101004DA46D /* PhotoCell.swift */,
 			);
 			path = GalleryModule;
 			sourceTree = "<group>";
@@ -131,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				D0B47A2529E6E3F2002342BE /* NetworkService.swift */,
+				D0B47A2B29E82A99002342BE /* NetworkDataFetcher.swift */,
 			);
 			path = NetworkLayer;
 			sourceTree = "<group>";
@@ -207,11 +216,14 @@
 			files = (
 				D0B47A0729E6A40A002342BE /* GalleryViewController.swift in Sources */,
 				D0B47A0329E6A40A002342BE /* AppDelegate.swift in Sources */,
+				D0B47A2E29E82B0E002342BE /* SearchResults.swift in Sources */,
 				D0B47A1B29E6A67D002342BE /* FavoritesViewController.swift in Sources */,
 				D0B47A2329E6D8CD002342BE /* DetailViewController.swift in Sources */,
 				D0B47A0529E6A40A002342BE /* SceneDelegate.swift in Sources */,
 				D0B47A1F29E6BB52002342BE /* MainTabBarControllerMainTabBarController.swift in Sources */,
+				D0B47A2C29E82A99002342BE /* NetworkDataFetcher.swift in Sources */,
 				D0B47A2629E6E3F2002342BE /* NetworkService.swift in Sources */,
+				D0261E9D29EEA101004DA46D /* PhotoCell.swift in Sources */,
 				D0B47A2829E810CD002342BE /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

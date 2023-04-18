@@ -11,7 +11,8 @@ class GalleryViewController: UIViewController {
 
     // properties
     private var collectionView: UICollectionView?
-    var networkService: NetworkServiceType?
+    var networkDataFetcher = NetworkDataFetcher()
+    private var timer: Timer?
     
     private lazy var addBarButtonItem: UIBarButtonItem = {
         return UIBarButtonItem(barButtonSystemItem: .add,
@@ -28,7 +29,7 @@ class GalleryViewController: UIViewController {
     // lifecicle
     override func viewDidLoad() {
         super.viewDidLoad()
-        networkService = NetworkService()
+        
         view.backgroundColor = .red
         navigationItem.title = "Gallery"
     
@@ -99,8 +100,15 @@ extension GalleryViewController: UICollectionViewDelegate {
 extension GalleryViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
-        networkService?.searchRequest(searchTerm: searchText, completion: { _, _ in
-            print("123")
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
+            self.networkDataFetcher.fetchImages(searchTerm: searchText) { searchResults in
+                searchResults?.results.map { photo in
+                    print(photo.urls["small"])
+                    
+                    //print(photo.urls["small"])
+                }
+            }
         })
     }
 }
