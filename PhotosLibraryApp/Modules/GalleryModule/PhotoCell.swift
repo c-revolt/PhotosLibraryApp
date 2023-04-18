@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class PhotoCell: UICollectionViewCell {
     
@@ -30,6 +31,14 @@ class PhotoCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             updateSelectedState()
+        }
+    }
+    
+    var unsplashPhoto: Photo? {
+        didSet {
+            guard let photoUrl = unsplashPhoto?.urls["regular"] else { return }
+            let url = URL(string: photoUrl)
+            photoImageView.sd_setImage(with: url)
         }
     }
     

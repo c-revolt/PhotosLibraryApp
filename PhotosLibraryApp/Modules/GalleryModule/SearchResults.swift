@@ -13,13 +13,13 @@ struct SearchResults: Decodable {
 }
 
 struct Photo: Decodable {
-    let id: String
+//    let id: String
     let width: Int
     let height: Int
-    let likes: Int
-    let description: String
+//    let likes: Int
+//    let description: String
     let urls: [URLKing.RawValue:String]
-    let user: User
+//    let user: User
     
     enum URLKing: String {
         case raw
