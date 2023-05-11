@@ -17,7 +17,6 @@ final class NetworkService: NetworkServiceType {
         let url = self.url(params: parameters)
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        //request.setValue("Client-ID \(K.apiKey)", forHTTPHeaderField: "Authorization")
         request.allHTTPHeaderFields = prepareHeader()
         let task = createDataTask(from: request, completion: completion)
         task.resume()
@@ -53,7 +52,6 @@ final class NetworkService: NetworkServiceType {
         return URLSession.shared.dataTask(with: request) { (data, response, error) in
             DispatchQueue.main.async {
                 completion(data, error)
-                
             }
         }
     }

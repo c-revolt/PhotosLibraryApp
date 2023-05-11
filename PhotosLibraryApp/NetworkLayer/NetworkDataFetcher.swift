@@ -14,7 +14,7 @@ protocol NetworkDataFetcherType: AnyObject {
 
 final class NetworkDataFetcher: NetworkDataFetcherType {
     
-     var networkService: NetworkServiceType?
+    var networkService: NetworkServiceType?
     
     func fetchImages(searchTerm: String, completion: @escaping (SearchResults?) -> ()) {
         networkService = NetworkService()
