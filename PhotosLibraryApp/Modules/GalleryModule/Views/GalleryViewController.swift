@@ -30,19 +30,35 @@ class GalleryViewController: UIViewController {
         return collectionView?.indexPathsForSelectedItems?.count ?? 0
     }
     
+    private let enterSearchTermLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Начни поиск, чтобы увидеть фото..."
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        return spinner
+    }()
+    
     // lifecicle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         viewModel = GalleryViewModel()
         
-        view.backgroundColor = .red
         navigationItem.title = "Gallery"
     
         updateNavButtonState()
         setupNavigationBar()
         setupCollectionView()
         setupSearchBar()
+        setupEnterLabel()
+        setupSpinner()
         
     }
     
@@ -84,9 +100,9 @@ class GalleryViewController: UIViewController {
         let titleLabel = UILabel()
         titleLabel.text = "PHOTOS"
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        titleLabel.textColor = .lightText
-        sharedBarButtonItem.tintColor = .lightText
-        addBarButtonItem.tintColor = .lightText
+        titleLabel.textColor = .darkText
+        sharedBarButtonItem.tintColor = .systemTeal
+        addBarButtonItem.tintColor = .systemTeal
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: titleLabel)
         navigationItem.rightBarButtonItems = [sharedBarButtonItem, addBarButtonItem]
     }
@@ -98,12 +114,28 @@ class GalleryViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self 
     }
+    
+    private func setupEnterLabel() {
+        guard let collectionView = collectionView else { return }
+        collectionView.addSubview(enterSearchTermLabel)
+        enterSearchTermLabel.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
+        enterSearchTermLabel.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 50).isActive = true
+    }
+    
+    private func setupSpinner() {
+        guard let collectionView = collectionView else { return }
+        view.addSubview(spinner)
+        spinner.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
+        spinner.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor).isActive = true
+    }
 }
 
 // MARK: - UICollectionViewDataSource
 extension GalleryViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let numberOfRows = viewModel?.numberOfRows else { fatalError() }
+        guard let numberOfRows = viewModel?.numberOfRows() else { fatalError() }
+        enterSearchTermLabel.isHidden = numberOfRows != 0
         return numberOfRows
     }
     
@@ -146,6 +178,7 @@ extension GalleryViewController: UISearchBarDelegate {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
             self.viewModel?.fetchResults(text: searchText, collectionView: collectionView)
+            self.spinner.stopAnimating()
             self.refresh()
         })
     }
@@ -156,6 +189,31 @@ extension GalleryViewController {
     @objc private func addBarButtonTapped() {
         print(#function)
         
+        let selectedPhotos = collectionView?.indexPathsForSelectedItems?.reduce([], { (photosss, indexPath) -> [Photo] in
+            var mutablePhotos = photosss
+            guard let photo2 = viewModel?.getPhotosForAddBarButton(forIndexPath: indexPath) else { fatalError() }
+            mutablePhotos.append(photo2)
+            return mutablePhotos
+        })
+        
+        let alertController = UIAlertController(title: "",
+                                                message: "\(String(describing: selectedPhotos?.count)) фото будут добавлены в альбом",
+                                                preferredStyle: .alert)
+        let add = UIAlertAction(title: "Добавить", style: .default) { (action) in
+            let tabbar = self.tabBarController as! MainTabBarController
+            let navVC = tabbar.viewControllers?[1] as! UINavigationController
+            let favoritesVC = navVC.topViewController as! FavoritesViewController
+            
+            favoritesVC.viewModel?.appendSelectedImages(selectedPhotos ?? [])
+            guard let collectionView = self.collectionView else { return }
+            favoritesVC.viewModel?.reloadDataForAddBarButton(collectionView)
+            
+            self.refresh()
+        }
+        let cancel = UIAlertAction(title: "Отменить", style: .cancel) { (action) in }
+        alertController.addAction(add)
+        alertController.addAction(cancel)
+        present(alertController, animated: true)
         
     }
     
@@ -167,7 +225,6 @@ extension GalleryViewController {
             if bool {
                 self.refresh()
             }
-            
         }
         
         shareController.popoverPresentationController?.barButtonItem = sender

@@ -8,12 +8,11 @@
 import UIKit
 
 final class GalleryViewModel: GalleryViewModelType {
-    
     var photos: [Photo] = []
     var selectedImages = [UIImage]()
     var networkDataFetcher: NetworkDataFetcherType?
     
-    var numberOfRows: Int {
+    func numberOfRows() -> Int {
         photos.count
     }
     
@@ -44,5 +43,19 @@ final class GalleryViewModel: GalleryViewModelType {
         if let index = selectedImages.firstIndex(of: image) {
             selectedImages.remove(at: index)
         }
+    }
+    
+//    func appendSelectedImagesForFavorites(_ collectionView: UICollectionView) -> [Photo]{
+//        let selectedPhotos = collectionView.indexPathsForSelectedItems?.reduce([], { (photosss, indexPath) -> [Photo] in
+//            var mutablePhotos = photosss
+//            let photo = photos[indexPath.item]
+//            mutablePhotos.append(photo)
+//            return mutablePhotos
+//        })
+//        selectedImages.append(selectedPhotos)
+//    }
+    
+    func getPhotosForAddBarButton(forIndexPath indexPath: IndexPath) -> Photo {
+        return photos[indexPath.item]
     }
 }
