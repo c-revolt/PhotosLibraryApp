@@ -1,4 +1,4 @@
-# **PhotosLybraryApp**
+# **PhotosLibraryApp**
 
 Учебный проект. 
 
