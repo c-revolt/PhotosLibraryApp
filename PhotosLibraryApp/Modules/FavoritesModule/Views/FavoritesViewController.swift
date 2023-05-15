@@ -9,17 +9,10 @@ import UIKit
 
 class FavoritesViewController: UIViewController {
     
-    private var collectionView: UICollectionView?
+    var photos: [Photo] = []
+    var collectionView: UICollectionView?
     var viewModel: FavoritesViewViewModelType?
-    
-    private let enterSearchTermLabel: UILabel = {
-        let label = UILabel()
-        label.text = "You haven't add a photos yet"
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let enterSearchTermLabel: UILabel = UILabel()
     
     private lazy var trashBarButtonItem: UIBarButtonItem = {
         return UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: nil)
@@ -29,7 +22,7 @@ class FavoritesViewController: UIViewController {
         super.viewDidLoad()
         viewModel = FavoritesViewViewModel()
         setupCollectionView()
-        setupEnterLabel()
+        setupViews()
     }
     
     override func viewDidLayoutSubviews() {
@@ -57,18 +50,25 @@ class FavoritesViewController: UIViewController {
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
-    private func setupEnterLabel() {
+    private func setupViews() {
+        
+        enterSearchTermLabel.text = "Вы ещё не добавили сюда фото..."
+        enterSearchTermLabel.textAlignment = .center
+        enterSearchTermLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        enterSearchTermLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         guard let collectionView = collectionView else { return }
         collectionView.addSubview(enterSearchTermLabel)
         enterSearchTermLabel.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
         enterSearchTermLabel.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 50).isActive = true
-    }
-    
-    private func setupNavigationBar() {
-        let titleLabel = UILabel(text: "FAVOURITES", font: .systemFont(ofSize: 15, weight: .medium), textColor: #colorLiteral(red: 0.5, green: 0.5, blue: 0.5, alpha: 1))
+        
+        let titleLabel = UILabel()
+        titleLabel.text = "FAVORITES"
+        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        titleLabel.textColor = .darkText
+        trashBarButtonItem.tintColor = .systemTeal
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: titleLabel)
-        navigationItem.rightBarButtonItem = trashBarButtonItem
-        trashBarButtonItem.isEnabled = false
+        navigationItem.rightBarButtonItems = [trashBarButtonItem]
     }
 }
 

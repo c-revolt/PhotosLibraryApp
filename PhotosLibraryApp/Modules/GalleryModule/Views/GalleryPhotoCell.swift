@@ -57,9 +57,12 @@ class GalleryPhotoCell: UICollectionViewCell {
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         photoImageView.backgroundColor = .systemBackground
         photoImageView.contentMode = .scaleAspectFill
+        photoImageView.layer.cornerRadius = 10
+        photoImageView.clipsToBounds = true
         
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
         authorLabel.font = UIFont.preferredFont(forTextStyle: .callout)
+        authorLabel.textColor = .white
         authorLabel.textAlignment = .left
         
         checkmark.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +81,7 @@ class GalleryPhotoCell: UICollectionViewCell {
             photoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             photoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             authorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            authorLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 1),
+            authorLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
             checkmark.trailingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: -8),
             checkmark.topAnchor.constraint(equalTo: photoImageView.topAnchor, constant: 8)
         ])

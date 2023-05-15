@@ -45,16 +45,6 @@ final class GalleryViewModel: GalleryViewModelType {
         }
     }
     
-//    func appendSelectedImagesForFavorites(_ collectionView: UICollectionView) -> [Photo]{
-//        let selectedPhotos = collectionView.indexPathsForSelectedItems?.reduce([], { (photosss, indexPath) -> [Photo] in
-//            var mutablePhotos = photosss
-//            let photo = photos[indexPath.item]
-//            mutablePhotos.append(photo)
-//            return mutablePhotos
-//        })
-//        selectedImages.append(selectedPhotos)
-//    }
-    
     func getPhotosForAddBarButton(forIndexPath indexPath: IndexPath) -> Photo {
         return photos[indexPath.item]
     }

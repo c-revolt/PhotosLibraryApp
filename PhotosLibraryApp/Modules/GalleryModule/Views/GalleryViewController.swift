@@ -30,15 +30,7 @@ class GalleryViewController: UIViewController {
         return collectionView?.indexPathsForSelectedItems?.count ?? 0
     }
     
-    private let enterSearchTermLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Начни поиск, чтобы увидеть фото..."
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
+    private let enterSearchTermLabel: UILabel = UILabel()
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
         spinner.translatesAutoresizingMaskIntoConstraints = false
@@ -48,17 +40,11 @@ class GalleryViewController: UIViewController {
     // lifecicle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         viewModel = GalleryViewModel()
-        
-        navigationItem.title = "Gallery"
-    
         updateNavButtonState()
-        setupNavigationBar()
         setupCollectionView()
-        setupSearchBar()
-        setupEnterLabel()
-        setupSpinner()
+        setup()
+        layout()
         
     }
     
@@ -96,7 +82,23 @@ class GalleryViewController: UIViewController {
         collectionView.backgroundColor = .systemBackground
     }
     
-    private func setupNavigationBar() {
+    private func setup() {
+        guard let collectionView = collectionView else { return }
+        
+        view.addSubview(spinner)
+        collectionView.addSubview(enterSearchTermLabel)
+        
+        enterSearchTermLabel.text = "Начни поиск, чтобы увидеть фото..."
+        enterSearchTermLabel.textAlignment = .center
+        enterSearchTermLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        enterSearchTermLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let searchController = UISearchController(searchResultsController: nil)
+        navigationItem.searchController = searchController
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
+        
         let titleLabel = UILabel()
         titleLabel.text = "PHOTOS"
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
@@ -105,28 +107,18 @@ class GalleryViewController: UIViewController {
         addBarButtonItem.tintColor = .systemTeal
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: titleLabel)
         navigationItem.rightBarButtonItems = [sharedBarButtonItem, addBarButtonItem]
+        
     }
     
-    private func setupSearchBar() {
-        let searchController = UISearchController(searchResultsController: nil)
-        navigationItem.searchController = searchController
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.delegate = self 
-    }
-    
-    private func setupEnterLabel() {
+    private func layout() {
         guard let collectionView = collectionView else { return }
-        collectionView.addSubview(enterSearchTermLabel)
-        enterSearchTermLabel.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
-        enterSearchTermLabel.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 50).isActive = true
-    }
-    
-    private func setupSpinner() {
-        guard let collectionView = collectionView else { return }
-        view.addSubview(spinner)
-        spinner.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
-        spinner.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor).isActive = true
+        
+        NSLayoutConstraint.activate([
+            enterSearchTermLabel.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+            enterSearchTermLabel.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 50),
+            spinner.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor)
+        ])
     }
 }
 
@@ -200,16 +192,15 @@ extension GalleryViewController {
                                                 message: "\(String(describing: selectedPhotos?.count)) фото будут добавлены в альбом",
                                                 preferredStyle: .alert)
         let add = UIAlertAction(title: "Добавить", style: .default) { (action) in
-            let tabbar = self.tabBarController as! MainTabBarController
-            let navVC = tabbar.viewControllers?[1] as! UINavigationController
-            let favoritesVC = navVC.topViewController as! FavoritesViewController
+            guard let tabBar =  self.tabBarController as? MainViewController,
+                    let navVC = tabBar.viewControllers?[1] as? UINavigationController,
+                    let favoritesVC = navVC.topViewController as? FavoritesViewController else { return }
             
             favoritesVC.viewModel?.appendSelectedImages(selectedPhotos ?? [])
             guard let collectionView = self.collectionView else { return }
             favoritesVC.viewModel?.reloadDataForAddBarButton(collectionView)
-            
-            self.refresh()
         }
+        
         let cancel = UIAlertAction(title: "Отменить", style: .cancel) { (action) in }
         alertController.addAction(add)
         alertController.addAction(cancel)

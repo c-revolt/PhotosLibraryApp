@@ -21,9 +21,11 @@ final class FavoritesViewViewModel: FavoritesViewViewModelType {
         return FavoritePhotoCellViewModel(model: photo)
     }
     
-    func appendSelectedImages(_ photo: [Photo]) {
-        photos.append(contentsOf: photo)
+    func appendSelectedImages(_ image: [Photo]) {
+        photos.append(contentsOf: image)
+        
     }
+    
     
     func removeSelectedImages(_ image: UIImage) {
         if let index = selectedImages.firstIndex(of: image) {
