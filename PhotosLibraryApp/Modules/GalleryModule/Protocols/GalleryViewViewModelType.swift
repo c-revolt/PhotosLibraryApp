@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol GalleryViewModelType: AnyObject {
+protocol GalleryViewViewModelType: AnyObject {
     var selectedImages: [UIImage] { get set }
     func numberOfRows() -> Int
     func cellViewModel(forIndexPath indexPath: IndexPath) -> GalleryPhotoCellViewModelType?

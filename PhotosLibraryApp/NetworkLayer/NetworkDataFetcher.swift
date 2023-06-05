@@ -8,14 +8,15 @@
 import Foundation
 
 protocol NetworkDataFetcherType: AnyObject {
-    
     func fetchImages(searchTerm: String, completion: @escaping (SearchResults?) -> ())
 }
 
 final class NetworkDataFetcher: NetworkDataFetcherType {
     
     var networkService: NetworkServiceType?
-    
+    // всё перенести в network service
+    // NetworkDataFetcher - плохое название, если загружаешь одни фотки
+    //
     func fetchImages(searchTerm: String, completion: @escaping (SearchResults?) -> ()) {
         networkService = NetworkService()
         networkService?.searchRequest(searchTerm: searchTerm) { data, error in

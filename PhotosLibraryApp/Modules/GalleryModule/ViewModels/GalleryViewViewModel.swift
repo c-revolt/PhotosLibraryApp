@@ -7,14 +7,28 @@
 
 import UIKit
 
-final class GalleryViewModel: GalleryViewModelType {
+protocol GalleryViewing: AnyObject {
+    func showAddFavoriteAlert()
+}
+
+final class GalleryViewViewModel: GalleryViewViewModelType {
     var photos: [Photo] = []
     var selectedImages = [UIImage]()
     var networkDataFetcher: NetworkDataFetcherType?
+    weak var view: GalleryViewControllerType?
+    weak var output: GalleryViewOutput?
+
+    init(view: GalleryViewControllerType? = nil, output: GalleryViewOutput? = nil) {
+        self.view = view
+        self.output = output
+    }
+
     
     func numberOfRows() -> Int {
         photos.count
     }
+    
+    
     
     func cellViewModel(forIndexPath indexPath: IndexPath) -> GalleryPhotoCellViewModelType? {
         let photo = photos[indexPath.item]

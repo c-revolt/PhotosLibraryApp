@@ -7,12 +7,17 @@
 
 import UIKit
 
+protocol GalleryViewControllerType: AnyObject {
+    func showAddFavoriteAlert()
+    func updateNavButtonState()
+}
+
 class GalleryViewController: UIViewController {
     
     // properties
     private var collectionView: UICollectionView?
     private var timer: Timer?
-    var viewModel: GalleryViewModelType?
+    var viewModel: GalleryViewViewModelType?
     
     private lazy var addBarButtonItem: UIBarButtonItem = {
         return UIBarButtonItem(barButtonSystemItem: .add,
@@ -38,9 +43,19 @@ class GalleryViewController: UIViewController {
     }()
     
     // lifecicle
+    init(viewModel: GalleryViewViewModelType?) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = GalleryViewModel()
+        
         updateNavButtonState()
         setupCollectionView()
         setup()
@@ -52,7 +67,7 @@ class GalleryViewController: UIViewController {
         collectionView?.frame = view.bounds
     }
     
-    private func updateNavButtonState() {
+    func updateNavButtonState() {
         addBarButtonItem.isEnabled = numberOfSelectedPhotos > 0
         sharedBarButtonItem.isEnabled = numberOfSelectedPhotos > 0
     }
@@ -151,6 +166,7 @@ extension GalleryViewController: UICollectionViewDelegate {
         guard let cell = collectionView.cellForItem(at: indexPath) as? GalleryPhotoCell else { return }
         guard let image = cell.photoImageView.image else { return }
         viewModel?.appendSelectedImages(image)
+        // appendSelectedImages - добавить indexPath
         
     }
     
@@ -180,7 +196,7 @@ extension GalleryViewController: UISearchBarDelegate {
 extension GalleryViewController {
     @objc private func addBarButtonTapped() {
         print(#function)
-        
+  
         let selectedPhotos = collectionView?.indexPathsForSelectedItems?.reduce([], { (photosss, indexPath) -> [Photo] in
             var mutablePhotos = photosss
             guard let photo2 = viewModel?.getPhotosForAddBarButton(forIndexPath: indexPath) else { fatalError() }
@@ -188,23 +204,25 @@ extension GalleryViewController {
             return mutablePhotos
         })
         
-        let alertController = UIAlertController(title: "",
-                                                message: "\(String(describing: selectedPhotos?.count)) фото будут добавлены в альбом",
-                                                preferredStyle: .alert)
-        let add = UIAlertAction(title: "Добавить", style: .default) { (action) in
-            guard let tabBar =  self.tabBarController as? MainViewController,
-                    let navVC = tabBar.viewControllers?[1] as? UINavigationController,
-                    let favoritesVC = navVC.topViewController as? FavoritesViewController else { return }
-            
-            favoritesVC.viewModel?.appendSelectedImages(selectedPhotos ?? [])
-            guard let collectionView = self.collectionView else { return }
-            favoritesVC.viewModel?.reloadDataForAddBarButton(collectionView)
-        }
+    //    viewModel.addBarButtonTapped(selectedPhotos)
         
-        let cancel = UIAlertAction(title: "Отменить", style: .cancel) { (action) in }
-        alertController.addAction(add)
-        alertController.addAction(cancel)
-        present(alertController, animated: true)
+//        let alertController = UIAlertController(title: "",
+//                                                message: "\(String(describing: selectedPhotos?.count)) фото будут добавлены в альбом",
+//                                                preferredStyle: .alert)
+//        let add = UIAlertAction(title: "Добавить", style: .default) { (action) in
+//            guard let tabBar =  self.tabBarController as? MainViewController,
+//                    let navVC = tabBar.viewControllers?[1] as? UINavigationController,
+//                    let favoritesVC = navVC.topViewController as? FavoritesViewController else { return }
+//            
+//            favoritesVC.viewModel?.appendSelectedImages(selectedPhotos ?? [])
+//            guard let collectionView = self.collectionView else { return }
+//            favoritesVC.viewModel?.reloadDataForAddBarButton(collectionView)
+//        }
+        
+//        let cancel = UIAlertAction(title: "Отменить", style: .cancel) { (action) in }
+//        alertController.addAction(add)
+//        alertController.addAction(cancel)
+//        present(alertController, animated: true)
         
     }
     
@@ -230,4 +248,15 @@ extension GalleryViewController: WaterfallLayoutDelegate {
         guard let viewModel = viewModel else { fatalError() }
         return viewModel.waterFallLayout(for: indexPath)
     }
+}
+
+// MARK: - GalleryViewControllerType
+extension GalleryViewController: GalleryViewControllerType {
+    func showAddFavoriteAlert() {
+        
+    }
+    
+    
+    
+    
 }

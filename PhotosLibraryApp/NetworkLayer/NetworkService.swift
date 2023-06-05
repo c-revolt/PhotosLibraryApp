@@ -12,6 +12,7 @@ protocol NetworkServiceType: AnyObject {
 }
 
 final class NetworkService: NetworkServiceType {
+    
     func searchRequest(searchTerm: String, completion: @escaping (Data?, Error?) -> Void) {
         let parameters = self.prepareSearchParameters(searchTerm: searchTerm)
         let url = self.url(params: parameters)

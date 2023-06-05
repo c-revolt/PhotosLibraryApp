@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol FavoritesViewControllerType: AnyObject {
+    
+}
+
 class FavoritesViewController: UIViewController {
     
     var photos: [Photo] = []
@@ -18,9 +22,18 @@ class FavoritesViewController: UIViewController {
         return UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: nil)
     }()
     
+    init(viewModel: FavoritesViewViewModelType? = nil) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = FavoritesViewViewModel()
+        
         setupCollectionView()
         setupViews()
     }
@@ -95,4 +108,8 @@ extension FavoritesViewController: UICollectionViewDelegate {
         let width = collectionView.frame.width
         return CGSize(width: width/3 - 1, height: width/3 - 1)
     }
+}
+
+extension FavoritesViewController: FavoritesViewControllerType {
+    
 }

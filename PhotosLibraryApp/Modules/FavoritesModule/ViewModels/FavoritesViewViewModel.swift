@@ -11,6 +11,13 @@ final class FavoritesViewViewModel: FavoritesViewViewModelType {
 
     var photos: [Photo] = []
     var selectedImages = [UIImage]()
+    weak var view: FavoritesViewControllerType?
+    weak var ouput: FavoritesOutput?
+    
+    init(view: FavoritesViewControllerType? = nil, output: FavoritesOutput? = nil) {
+        self.view = view
+        self.ouput = output
+    }
     
     func numberOfRows() -> Int {
         return photos.count
