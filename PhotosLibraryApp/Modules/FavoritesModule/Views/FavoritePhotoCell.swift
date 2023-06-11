@@ -20,7 +20,6 @@ class FavoritePhotoCell: UICollectionViewCell {
             guard let photoUrl = viewModel?.photoString else { fatalError() }
             let url = URL(string: photoUrl)
             photoImageView.sd_setImage(with: url)
-            photoImageView.image = UIImage(named: photoUrl)
         }
     }
     
