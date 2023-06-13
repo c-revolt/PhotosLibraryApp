@@ -8,7 +8,6 @@
 import UIKit
 
 protocol AssemblyType: AnyObject {
- 
     func makeGalleryView(output: GalleryViewOutput) -> UIViewController
     func makeFavoritsView(output: FavoritesOutput) -> UIViewController
 }

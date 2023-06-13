@@ -7,16 +7,12 @@
 
 import UIKit
 
-protocol GalleryViewControllerType: AnyObject {
-    func showAddFavoriteAlert()
-    func updateNavButtonState()
-}
-
 class GalleryViewController: UIViewController {
     
     // properties
     private var collectionView: UICollectionView?
     private var timer: Timer?
+    // указать напрямую ViewModel
     var viewModel: GalleryViewViewModelType?
     
     private lazy var addBarButtonItem: UIBarButtonItem = {
@@ -251,12 +247,19 @@ extension GalleryViewController: WaterfallLayoutDelegate {
 }
 
 // MARK: - GalleryViewControllerType
-extension GalleryViewController: GalleryViewControllerType {
+extension GalleryViewController: GalleryViewing {
     func showAddFavoriteAlert() {
         
     }
     
+    func reloadCollection() {
+        
+    }
     
+
+    func updateNavButtonState() {
+        
+    }
     
     
 }
