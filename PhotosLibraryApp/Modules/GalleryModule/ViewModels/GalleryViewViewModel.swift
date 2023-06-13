@@ -7,19 +7,25 @@
 
 import UIKit
 
+// наследует view
 protocol GalleryViewing: AnyObject {
     func showAddFavoriteAlert()
+    func updateNavButtonState()
+    func reloadCollection()
 }
 
 final class GalleryViewViewModel: GalleryViewViewModelType {
+    
+    // удалить - GalleryViewViewModelType
+    // импорта UIkit быть недолжно
+    
     var photos: [Photo] = []
     var selectedImages = [UIImage]()
     var networkDataFetcher: NetworkDataFetcherType?
-    weak var view: GalleryViewControllerType?
+    weak var view: GalleryViewing?
     weak var output: GalleryViewOutput?
 
-    init(view: GalleryViewControllerType? = nil, output: GalleryViewOutput? = nil) {
-        self.view = view
+    init(output: GalleryViewOutput? = nil) {
         self.output = output
     }
 
@@ -27,8 +33,6 @@ final class GalleryViewViewModel: GalleryViewViewModelType {
     func numberOfRows() -> Int {
         photos.count
     }
-    
-    
     
     func cellViewModel(forIndexPath indexPath: IndexPath) -> GalleryPhotoCellViewModelType? {
         let photo = photos[indexPath.item]
@@ -40,7 +44,7 @@ final class GalleryViewViewModel: GalleryViewViewModelType {
         networkDataFetcher?.fetchImages(searchTerm: searchText) { [weak self] (searchResults) in
             guard let fetchedPhotos = searchResults else { return }
             self?.photos = fetchedPhotos.results
-            collectionView.reloadData()
+            self?.view?.reloadCollection()
         }
     }
     

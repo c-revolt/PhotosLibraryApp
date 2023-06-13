@@ -8,8 +8,7 @@
 import UIKit
 
 protocol MainCoordinatorProtocol: AnyObject {
-    var tabBarController: UITabBarController? { get set }
-    var assembly: AssemblyType? { get set }
+  
 }
 
 protocol CoordinatorProtocol: MainCoordinatorProtocol {
@@ -18,74 +17,74 @@ protocol CoordinatorProtocol: MainCoordinatorProtocol {
 
 final class AppCoordinator: CoordinatorProtocol {
     
-    var tabBarController: UITabBarController?
-    var assembly: AssemblyType?
+    var assembly: AssemblyType
     weak var galleryOutput: GalleryViewOutput?
     weak var favoritesOutput: FavoritesOutput?
     
-    init(tabBarController: UITabBarController, assembly: AssemblyType) {
-        self.tabBarController = tabBarController
+    init(assembly: AssemblyType) {
         self.assembly = assembly
     }
     
     func start(window: UIWindow) {
-        if let tabBarController = tabBarController {
-            guard let galleryViewController = assembly?.makeGalleryView(output: galleryOutput!) else { return }
-            guard let favoritesViewController = assembly?.makeFavoritsView(output: favoritesOutput!) else { return }
-            tabBarController.setViewControllers(
-                [
-                    UINavigationController(rootViewController: galleryViewController),
-                    UINavigationController(rootViewController: favoritesViewController)
-                ],
-                animated: true
-            )
-        }
         
-        setupTabBarController()
+        let tabBarController = UITabBarController()
+        
+        let galleryViewController = assembly.makeGalleryView(output: self)
+        let favoritesViewController = assembly.makeFavoritsView(output: self)
+        
+        tabBarController.setViewControllers(
+            [
+                UINavigationController(rootViewController: galleryViewController),
+                UINavigationController(rootViewController: favoritesViewController)
+            ],
+            animated: true
+        )
+        
+        setupTabBarController(tabBarController)
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
-        window.overrideUserInterfaceStyle = .dark
+      //  window.overrideUserInterfaceStyle = .dark
     }
     
-    private func setupTabBarController() {
+    private func setupTabBarController(_ tabBarController: UITabBarController) {
         
-        tabBarController?.viewControllers?[0].tabBarItem = UITabBarItem(
+        tabBarController.viewControllers?[0].tabBarItem = UITabBarItem(
             title: "Photos",
             image: UIImage(systemName: "film"),
             tag: 0)
         
-        tabBarController?.viewControllers?[1].tabBarItem = UITabBarItem(
+        tabBarController.viewControllers?[1].tabBarItem = UITabBarItem(
             title: "Favorites",
             image: UIImage(systemName: "heart"),
             tag: 1)
         
-        tabBarController?.tabBar.tintColor = .systemGreen
+        tabBarController.tabBar.tintColor = .systemGreen
     }
     
 }
 
+//
+//final class Coordinator {
+//    private let assembly: Assembly
+//    private var navigationController: UINavigationController?
+//
+//    init(assembly: Assembly) {
+//        self.assembly = assembly
+//    }
+//
+//    func start(window: UIWindow) {
+//        let galleryView = assembly.makeGalleryView(output: self)
+//        navigationController = UINavigationController(rootViewController: galleryView)
+//        window.rootViewController = navigationController
+//        window.makeKeyAndVisible()
+//        window.overrideUserInterfaceStyle = .dark
+//    }
+//}
 
-final class Coordinator {
-    private let assembly: Assembly
-    private var navigationController: UINavigationController?
-    
-    init(assembly: Assembly) {
-        self.assembly = assembly
-    }
-    
-    func start(window: UIWindow) {
-        let galleryView = assembly.makeGalleryView(output: self)
-        navigationController = UINavigationController(rootViewController: galleryView)
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
-        window.overrideUserInterfaceStyle = .dark
-    }
+extension AppCoordinator: GalleryViewOutput {
+
 }
 
-extension Coordinator: GalleryViewOutput {
-    
-}
-
-extension Coordinator: FavoritesOutput {
+extension AppCoordinator: FavoritesOutput {
     
 }
