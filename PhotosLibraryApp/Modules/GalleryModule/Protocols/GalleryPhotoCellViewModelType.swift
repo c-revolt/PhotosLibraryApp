@@ -10,4 +10,5 @@ import UIKit
 protocol GalleryPhotoCellViewModelType: AnyObject {
     var photoString: String { get }
     var photoAuthorString: String { get }
+    var isSelected: Bool? { get }
 }

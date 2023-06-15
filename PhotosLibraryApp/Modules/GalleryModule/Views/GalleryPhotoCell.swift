@@ -16,7 +16,7 @@ class GalleryPhotoCell: UICollectionViewCell {
     
     static let reusedID = K.photoCellReusedID
     
-    weak var viewModel: GalleryPhotoCellViewModelType? {
+    var viewModel: GalleryPhotoCellViewModel? {
         willSet(viewModel) {
             guard let photoUrl = viewModel?.photoString else { fatalError() }
             let url = URL(string: photoUrl)
@@ -24,6 +24,8 @@ class GalleryPhotoCell: UICollectionViewCell {
             authorLabel.text = viewModel?.photoAuthorString
         }
     }
+    
+    // заменить на метод updateViewModel()
     
     override var isSelected: Bool {
         didSet {

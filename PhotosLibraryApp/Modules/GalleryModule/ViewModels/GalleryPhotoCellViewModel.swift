@@ -7,20 +7,21 @@
 
 import UIKit
 
-final class GalleryPhotoCellViewModel: GalleryPhotoCellViewModelType {
-   
-    private var model: Photo
+struct GalleryPhotoCellViewModel {
     
-    var photoString: String {
-        guard let imageUrl = model.urls["regular"] else { fatalError() }
-        return imageUrl
-    }
+    let isSelected: Bool
+    let photoString: String
+    let photoAuthorString: String
+//    private var model: Photo
+//
+//    var photoString: String {
+//        guard let imageUrl = model.urls["regular"] else { fatalError() }
+//        return imageUrl
+//    }
+//
+//    var photoAuthorString: String {
+//        return model.user.name
+//    }
+//
     
-    var photoAuthorString: String {
-        return model.user.name
-    }
-    
-    init(model: Photo) {
-        self.model = model
-    }
 }

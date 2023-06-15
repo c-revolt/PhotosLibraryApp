@@ -5,22 +5,21 @@
 //  Created by Александр Прайд on 25.04.2023.
 //
 
-import UIKit
+import Foundation
 
-// наследует view
 protocol GalleryViewing: AnyObject {
     func showAddFavoriteAlert()
     func updateNavButtonState()
     func reloadCollection()
+    func refresh()
+
 }
 
-final class GalleryViewViewModel: GalleryViewViewModelType {
-    
-    // удалить - GalleryViewViewModelType
-    // импорта UIkit быть недолжно
+final class GalleryViewViewModel {
     
     var photos: [Photo] = []
-    var selectedImages = [UIImage]()
+    var selectedImages: [Photo] = []
+    var cellViewModelArray: [GalleryPhotoCellViewModel] = []
     var networkDataFetcher: NetworkDataFetcherType?
     weak var view: GalleryViewing?
     weak var output: GalleryViewOutput?
@@ -34,12 +33,19 @@ final class GalleryViewViewModel: GalleryViewViewModelType {
         photos.count
     }
     
-    func cellViewModel(forIndexPath indexPath: IndexPath) -> GalleryPhotoCellViewModelType? {
+    func cellViewModel(forIndexPath indexPath: IndexPath) -> GalleryPhotoCellViewModel? {
         let photo = photos[indexPath.item]
-        return GalleryPhotoCellViewModel(model: photo)
+        // selectedImages.contains(where: { $0.urls == photo.urls })
+        // заменить selectedPhotos на IndexPath
+        // сравниваем их по indexPath
+        return GalleryPhotoCellViewModel(
+            isSelected: selectedImages.contains(where: { $0.urls == photo.urls }),
+            photoString: photo.urls["regular"]!,
+            photoAuthorString: photo.user.name
+        )
     }
     
-    func fetchResults(text searchText: String, collectionView: UICollectionView) {
+    func fetchResults(text searchText: String) {
         networkDataFetcher = NetworkDataFetcher()
         networkDataFetcher?.fetchImages(searchTerm: searchText) { [weak self] (searchResults) in
             guard let fetchedPhotos = searchResults else { return }
@@ -53,14 +59,18 @@ final class GalleryViewViewModel: GalleryViewViewModelType {
         return CGSize(width: photo.width, height: photo.height)
     }
     
-    func appendSelectedImages(_ image: UIImage) {
-        selectedImages.append(image)
+    func appendSelectedImages(_ indexPath: IndexPath) {
+        let photo = photos[indexPath.item]
+        selectedImages.append(photo)
+        // заменить на indexPath
+        view?.reloadCollection()
+        
     }
     
-    func removeSelectedImages(_ image: UIImage) {
-        if let index = selectedImages.firstIndex(of: image) {
-            selectedImages.remove(at: index)
-        }
+    func removeSelectedImages(_ indexPath: IndexPath) {
+//        if let index = selectedImages.firstIndex(of: indexPath) {
+//            selectedImages.remove(at: index)
+//        }
     }
     
     func getPhotosForAddBarButton(forIndexPath indexPath: IndexPath) -> Photo {
