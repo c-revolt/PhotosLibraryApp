@@ -12,7 +12,6 @@ protocol GalleryViewing: AnyObject {
     func updateNavButtonState()
     func reloadCollection()
     func refresh()
-
 }
 
 final class GalleryViewViewModel {
@@ -63,8 +62,8 @@ final class GalleryViewViewModel {
         let photo = photos[indexPath.item]
         selectedImages.append(photo)
         // заменить на indexPath
+        view?.updateNavButtonState()
         view?.reloadCollection()
-        
     }
     
     func removeSelectedImages(_ indexPath: IndexPath) {

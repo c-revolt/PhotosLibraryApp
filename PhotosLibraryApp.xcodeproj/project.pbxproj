@@ -10,8 +10,6 @@
 		D02290DE2A0F8D3A00767641 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02290DD2A0F8D3A00767641 /* MainViewController.swift */; };
 		D02290E02A0FAE2B00767641 /* UIViewController + Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02290DF2A0FAE2B00767641 /* UIViewController + Extention.swift */; };
 		D022CDF929F7D0890078E2D9 /* GalleryViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D022CDF829F7D0890078E2D9 /* GalleryViewViewModel.swift */; };
-		D022CE0129F7DA0E0078E2D9 /* GalleryPhotoCellViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D022CE0029F7DA0E0078E2D9 /* GalleryPhotoCellViewModelType.swift */; };
-		D022CE0329F7DA2F0078E2D9 /* GalleryViewViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D022CE0229F7DA2F0078E2D9 /* GalleryViewViewModelType.swift */; };
 		D022CE0529F7DAB00078E2D9 /* GalleryPhotoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D022CE0429F7DAB00078E2D9 /* GalleryPhotoCellViewModel.swift */; };
 		D022CE0729F91B650078E2D9 /* WatherfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D022CE0629F91B650078E2D9 /* WatherfallLayout.swift */; };
 		D0261E9D29EEA101004DA46D /* GalleryPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0261E9C29EEA101004DA46D /* GalleryPhotoCell.swift */; };
@@ -48,8 +46,6 @@
 		D02290DD2A0F8D3A00767641 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		D02290DF2A0FAE2B00767641 /* UIViewController + Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extention.swift"; sourceTree = "<group>"; };
 		D022CDF829F7D0890078E2D9 /* GalleryViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewViewModel.swift; sourceTree = "<group>"; };
-		D022CE0029F7DA0E0078E2D9 /* GalleryPhotoCellViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryPhotoCellViewModelType.swift; sourceTree = "<group>"; };
-		D022CE0229F7DA2F0078E2D9 /* GalleryViewViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewViewModelType.swift; sourceTree = "<group>"; };
 		D022CE0429F7DAB00078E2D9 /* GalleryPhotoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryPhotoCellViewModel.swift; sourceTree = "<group>"; };
 		D022CE0629F91B650078E2D9 /* WatherfallLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatherfallLayout.swift; sourceTree = "<group>"; };
 		D0261E9C29EEA101004DA46D /* GalleryPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryPhotoCell.swift; sourceTree = "<group>"; };
@@ -96,42 +92,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D022CDFA29F7D5EF0078E2D9 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				D0B47A0629E6A40A002342BE /* GalleryViewController.swift */,
-				D0261E9C29EEA101004DA46D /* GalleryPhotoCell.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		D022CDFB29F7D5F60078E2D9 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				D0B47A2D29E82B0E002342BE /* SearchResults.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		D022CDFC29F7D5FC0078E2D9 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				D022CDF829F7D0890078E2D9 /* GalleryViewViewModel.swift */,
-				D022CE0429F7DAB00078E2D9 /* GalleryPhotoCellViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		D022CDFD29F7D6030078E2D9 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				D022CE0229F7DA2F0078E2D9 /* GalleryViewViewModelType.swift */,
-				D022CE0029F7DA0E0078E2D9 /* GalleryPhotoCellViewModelType.swift */,
-				D094ABE52A28ACA600CFE64D /* GalleryIO.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
 		D07F3EB32A0BB82300AE30C9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,10 +158,12 @@
 		D0B47A1829E6A540002342BE /* GalleryModule */ = {
 			isa = PBXGroup;
 			children = (
-				D022CDFD29F7D6030078E2D9 /* Protocols */,
-				D022CDFC29F7D5FC0078E2D9 /* ViewModels */,
-				D022CDFB29F7D5F60078E2D9 /* Models */,
-				D022CDFA29F7D5EF0078E2D9 /* Views */,
+				D0B47A2D29E82B0E002342BE /* SearchResults.swift */,
+				D094ABE52A28ACA600CFE64D /* GalleryIO.swift */,
+				D022CDF829F7D0890078E2D9 /* GalleryViewViewModel.swift */,
+				D022CE0429F7DAB00078E2D9 /* GalleryPhotoCellViewModel.swift */,
+				D0B47A0629E6A40A002342BE /* GalleryViewController.swift */,
+				D0261E9C29EEA101004DA46D /* GalleryPhotoCell.swift */,
 			);
 			path = GalleryModule;
 			sourceTree = "<group>";
@@ -371,7 +333,6 @@
 				D0FD7A052A0D22E1001377B6 /* FavoritesViewViewModel.swift in Sources */,
 				D094ABE62A28ACA600CFE64D /* GalleryIO.swift in Sources */,
 				D0FD7A092A0E51C4001377B6 /* FavoritePhotoCellViewModelType.swift in Sources */,
-				D022CE0129F7DA0E0078E2D9 /* GalleryPhotoCellViewModelType.swift in Sources */,
 				D0FD7A122A0E59B2001377B6 /* UILabel + Extention.swift in Sources */,
 				D0B47A0529E6A40A002342BE /* SceneDelegate.swift in Sources */,
 				D022CE0729F91B650078E2D9 /* WatherfallLayout.swift in Sources */,
@@ -381,7 +342,6 @@
 				D0261E9D29EEA101004DA46D /* GalleryPhotoCell.swift in Sources */,
 				D0B47A2829E810CD002342BE /* Constants.swift in Sources */,
 				D094ABEA2A28AD5B00CFE64D /* Coordinator.swift in Sources */,
-				D022CE0329F7DA2F0078E2D9 /* GalleryViewViewModelType.swift in Sources */,
 				D02290E02A0FAE2B00767641 /* UIViewController + Extention.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

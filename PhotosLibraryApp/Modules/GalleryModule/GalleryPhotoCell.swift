@@ -18,10 +18,13 @@ class GalleryPhotoCell: UICollectionViewCell {
     
     var viewModel: GalleryPhotoCellViewModel? {
         willSet(viewModel) {
-            guard let photoUrl = viewModel?.photoString else { fatalError() }
+            guard let viewModel = viewModel else { fatalError() }
+            let photoUrl = viewModel.photoString
             let url = URL(string: photoUrl)
             photoImageView.sd_setImage(with: url)
-            authorLabel.text = viewModel?.photoAuthorString
+            authorLabel.text = viewModel.photoAuthorString
+            photoImageView.alpha = viewModel.isSelected ? 0.7 : 1
+            checkmark.alpha = viewModel.isSelected ? 1 : 0
         }
     }
     

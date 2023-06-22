@@ -129,9 +129,11 @@ extension GalleryViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryPhotoCell.reusedID,
-            for: indexPath) as? GalleryPhotoCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: GalleryPhotoCell.reusedID,
+            for: indexPath
+        )
+                as? GalleryPhotoCell else { return UICollectionViewCell() }
         
         let cellViewModel = viewModel.cellViewModel(forIndexPath: indexPath)
         cell.viewModel = cellViewModel
@@ -143,9 +145,6 @@ extension GalleryViewController: UICollectionViewDataSource {
 extension GalleryViewController: UICollectionViewDelegate {
  
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        updateNavButtonState()
-        guard let cell = collectionView.cellForItem(at: indexPath) as? GalleryPhotoCell else { return }
-
         viewModel.appendSelectedImages(indexPath)
         
     }
@@ -177,24 +176,33 @@ extension GalleryViewController {
     @objc private func addBarButtonTapped() {
         print(#function)
   
-        let selectedPhotos = collectionView?.indexPathsForSelectedItems?.reduce([], { (photosss, indexPath) -> [Photo] in
-            var mutablePhotos = photosss
-            let photo2 = viewModel.getPhotosForAddBarButton(forIndexPath: indexPath)
-            mutablePhotos.append(photo2)
-            return mutablePhotos
-        })
+        // пересобрать метода indexPathsForSelectedItems
+        // viewModel.selectedPhotos
+        
+//        let selectedPhotos = collectionView?.indexPathsForSelectedItems?.reduce([], { (photosss, indexPath) -> [Photo] in
+//            var mutablePhotos = photosss
+//            let photo2 = viewModel.getPhotosForAddBarButton(forIndexPath: indexPath)
+//            mutablePhotos.append(photo2)
+//            return mutablePhotos
+//        })
         
        // viewModel.addBarButtonTapped(selectedPhotos)
         
-        let alertController = UIAlertController(title: "",
-                                                message: "\(String(describing: selectedPhotos?.count)) фото будут добавлены в альбом",
-                                                preferredStyle: .alert)
+        let selectedPhotos = viewModel.selectedImages
+        
+        
+        let alertController = UIAlertController(
+            title: "",
+            message: "\(String(describing: selectedPhotos.count)) фото будут добавлены в альбом",
+            preferredStyle: .alert
+        )
+        
         let add = UIAlertAction(title: "Добавить", style: .default) { (action) in
             guard let tabBar =  self.tabBarController,
                     let navVC = tabBar.viewControllers?[1] as? UINavigationController,
                     let favoritesVC = navVC.topViewController as? FavoritesViewController else { return }
             
-            favoritesVC.viewModel?.appendSelectedImages(selectedPhotos ?? [])
+            favoritesVC.viewModel?.appendSelectedImages(selectedPhotos)
             guard let collectionView = self.collectionView else { return }
             favoritesVC.viewModel?.reloadDataForAddBarButton(collectionView)
         }
@@ -206,10 +214,12 @@ extension GalleryViewController {
         
     }
     
-    @objc private func sharedBarButtonTapped(sender: UIBarButtonItem) {
+    @objc private func sharedBarButtonTapped(_ sender: UIBarButtonItem) {
         print(#function)
         
-        let shareController = UIActivityViewController(activityItems: viewModel.selectedImages, applicationActivities: nil)
+        let selectedPhotos = viewModel.selectedImages
+        
+        let shareController = UIActivityViewController(activityItems: selectedPhotos, applicationActivities: nil)
         shareController.completionWithItemsHandler = { _, bool, _, _ in
             if bool {
                 self.refresh()
@@ -252,6 +262,4 @@ extension GalleryViewController: GalleryViewing {
         self.collectionView?.selectItem(at: nil, animated: true, scrollPosition: [])
         updateNavButtonState()
     }
-    
-    
 }
