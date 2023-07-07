@@ -7,12 +7,13 @@
 
 import Foundation
 
-protocol GalleryViewing: AnyObject {
-    func showAddFavoriteAlert()
-    func updateNavButtonState()
-    func reloadCollection()
-    func refresh()
-}
+//protocol GalleryViewing: AnyObject {
+//    func showSharedSheet(_ sender: AnyObject)
+//    func showAddFavoriteAlert()
+//    func updateNavButtonState()
+//    func reloadCollection()
+//    func refresh()
+//}
 
 final class GalleryViewViewModel {
     
@@ -20,7 +21,7 @@ final class GalleryViewViewModel {
     var selectedImages: [Photo] = []
     var cellViewModelArray: [GalleryPhotoCellViewModel] = []
     var networkDataFetcher: NetworkDataFetcherType?
-    weak var view: GalleryViewing?
+    weak var view: GalleryViewInput?
     weak var output: GalleryViewOutput?
 
     init(output: GalleryViewOutput? = nil) {

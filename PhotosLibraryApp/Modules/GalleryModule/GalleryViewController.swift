@@ -146,7 +146,6 @@ extension GalleryViewController: UICollectionViewDelegate {
  
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.appendSelectedImages(indexPath)
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -174,22 +173,43 @@ extension GalleryViewController: UISearchBarDelegate {
 // MARK: - NavigationItems Actions
 extension GalleryViewController {
     @objc private func addBarButtonTapped() {
-        print(#function)
-  
-        // пересобрать метода indexPathsForSelectedItems
-        // viewModel.selectedPhotos
-        
-//        let selectedPhotos = collectionView?.indexPathsForSelectedItems?.reduce([], { (photosss, indexPath) -> [Photo] in
-//            var mutablePhotos = photosss
-//            let photo2 = viewModel.getPhotosForAddBarButton(forIndexPath: indexPath)
-//            mutablePhotos.append(photo2)
-//            return mutablePhotos
-//        })
-        
-       // viewModel.addBarButtonTapped(selectedPhotos)
+        showAddFavoriteAlert()
+    }
+    
+    @objc private func sharedBarButtonTapped(_ sender: UIBarButtonItem) {
+        showSharedSheet(sender)
+    }
+}
+
+// MARK: - WaterfallLayoutDelegate
+extension GalleryViewController: WaterfallLayoutDelegate {
+    func waterfallLayout(_ layout: WaterfallLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return viewModel.waterFallLayout(for: indexPath)
+    }
+}
+
+// MARK: - GalleryViewInput
+extension GalleryViewController: GalleryViewInput {
+    func showSharedSheet(_ sender: AnyObject) {
         
         let selectedPhotos = viewModel.selectedImages
         
+        let shareController = UIActivityViewController(activityItems: selectedPhotos, applicationActivities: nil)
+        shareController.completionWithItemsHandler = { _, bool, _, _ in
+            if bool {
+                self.refresh()
+            }
+        }
+        
+        shareController.popoverPresentationController?.barButtonItem = sender as? UIBarButtonItem
+        shareController.popoverPresentationController?.permittedArrowDirections = .any
+        
+        present(shareController, animated: true)
+        
+    }
+    
+    func showAddFavoriteAlert() {
+        let selectedPhotos = viewModel.selectedImages
         
         let alertController = UIAlertController(
             title: "",
@@ -211,40 +231,6 @@ extension GalleryViewController {
         alertController.addAction(add)
         alertController.addAction(cancel)
         present(alertController, animated: true)
-        
-    }
-    
-    @objc private func sharedBarButtonTapped(_ sender: UIBarButtonItem) {
-        print(#function)
-        
-        let selectedPhotos = viewModel.selectedImages
-        
-        let shareController = UIActivityViewController(activityItems: selectedPhotos, applicationActivities: nil)
-        shareController.completionWithItemsHandler = { _, bool, _, _ in
-            if bool {
-                self.refresh()
-            }
-        }
-        
-        shareController.popoverPresentationController?.barButtonItem = sender
-        shareController.popoverPresentationController?.permittedArrowDirections = .any
-        
-        present(shareController, animated: true)
-    }
-}
-
-// MARK: - WaterfallLayoutDelegate
-extension GalleryViewController: WaterfallLayoutDelegate {
-    func waterfallLayout(_ layout: WaterfallLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return viewModel.waterFallLayout(for: indexPath)
-    }
-}
-
-// MARK: - GalleryViewing
-extension GalleryViewController: GalleryViewing {
-    
-    func showAddFavoriteAlert() {
-        
     }
     
     func reloadCollection() {

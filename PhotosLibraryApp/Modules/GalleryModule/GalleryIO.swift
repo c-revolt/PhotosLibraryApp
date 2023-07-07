@@ -8,7 +8,11 @@
 import Foundation
 
 protocol GalleryViewInput: AnyObject {
-    
+    func showSharedSheet(_ sender: AnyObject)
+    func showAddFavoriteAlert()
+    func updateNavButtonState()
+    func reloadCollection()
+    func refresh()
 }
 
 protocol GalleryViewOutput: AnyObject {
